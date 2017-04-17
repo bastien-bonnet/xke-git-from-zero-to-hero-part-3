@@ -1,0 +1,51 @@
+= Git from zero to hero: 3. Nom de l'atelier
+:Author: Bastien Bonnet, Alexandre Dergham
+:toc:
+:numbered: 1
+
+== Pré-requis
+
+. Avoir Git installé
+
+. Récupérer le projet en local
+
+	git clone https://github.com/bastien-bonnet/xke-git-from-zero-to-hero-part-3.git
+
+. Se placer dans le répertoire du projet cloné
+
+	cd xke-git-from-zero-to-hero-part-3
+
+. Pour visualiser l'historique des commits sous forme de graphe compact, nous rajoutons un alias `git l`:
+
+	git config alias.l 'log --graph --oneline --color --decorate --all'
++
+N'hésitez pas à utiliser cet alias avant et après chaque commande de l'atelier pour bien visualiser les changements apportés par chaque commande lancée.
++
+Pour utiliser l'alias que nous venons de définir (ne fonctionne que pour le projet git dans lequel nous l'avons déclaré) :
+
+	git l
+
+. Définir votre éditeur de texte préféré pour Git (commande à taper dans le terminal dans lequel vous réalisez l'exercice) :
+
+	export EDITOR=nano
++
+Remplacez `nano` par l'éditeur de votre choix (vim, emacs, gedit, kate…)
+
+
+== Introduction
+=== Programme de l'atelier
+
+Ceci est le troisième atelier d'une série de trois sur l'utilisation de Git
+
+Les objectifs de cette séance sont d'apprendre à :
+
+* Objectif 1
+* Objectif 2
+
+=== Préambule
+
+== Exercices
+
+=== Exercice 1
+
+=== Exercice 2
