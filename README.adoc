@@ -39,8 +39,11 @@ Ceci est le troisième atelier d'une série de trois sur l'utilisation de Git
 
 Les objectifs de cette séance sont d'apprendre à :
 
-* Objectif 1
-* Objectif 2
+* Déterminer le commit qui introduit une régression en utilisant git bisect.
+* Appliquer une modification isolée avec la commande cherrypick
+* Savoir ce qui se cache derrière la commande git pull
+* Etre en mesure de résoudre les problèmes liés à la modification d'une branche distante suite à un git push --force
+* Choisir un mode de travail adapté à votre projet (Pull-request, git flow, dictateur&lieutenant)
 
 === Préambule
 
