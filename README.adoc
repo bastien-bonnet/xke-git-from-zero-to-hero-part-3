@@ -62,6 +62,7 @@ Cette commande nous permet de rechercher un commit par dichotomie en testant des
 * ouvrez le fichier A.txt et regardez son contenu.
 
 A partir de là, 2 possibilités s'offrent à vous :
+
 * Le fichier A.txt **est conforme** au comportement recherché dans le commit sélectionné par git : tapez la commande `git bisect good`
 * Le fichier A.txt **n'est pas conforme** au comportement recherché : tapez la commande `git bisect bad`
 
