@@ -58,7 +58,7 @@ Cette commande nous permet de rechercher un commit par dichotomie en testant des
 * ouvrez le fichier A.txt et constatez que le fichier contient le texte **'Bye Bye!'** (Le comportement souhaité étant de contenir **'Hello world'**).
 * `git bisect start` : cette commande initie un contexte de recherche de commit par dichotomie
 * `git bisect bad` : cette commande indique que le commit actuel (master) inclus l'anomalie testée.
-* `git bisect good xxxxx` : cette commande indique que le commit dont la clé SHA-1 est xxxxx ne comporte pas l'anomalie testée. A ce moment là, git va vous sélectionner un commit situé exactement au milieu de la serie de commit délimitée par le commit que l'ont a défini comme bon et celui qui est défini comme mauvais.
+* `git bisect good ccdd677` : cette commande indique que le commit dont la clé SHA-1 est ccdd677 ne comporte pas l'anomalie testée. A ce moment là, git va vous sélectionner un commit situé exactement au milieu de la serie de commit délimitée par le commit que l'ont a défini comme bon et celui qui est défini comme mauvais.
 * ouvrez le fichier A.txt et regardez son contenu.
 
 A partir de là, 2 possibilités s'offrent à vous :
