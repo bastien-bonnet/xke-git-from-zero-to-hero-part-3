@@ -67,6 +67,9 @@ A partir de là, 2 possibilités s'offrent à vous :
 * Le fichier A.txt **n'est pas conforme** au comportement recherché : tapez la commande `git bisect bad`
 
 Dans les 2 cas, git redéfinira les bornes de la recherche en fonction de votre réponse et vous proposera un autre commit ainsi qu'une estimation du nombre maximum d'itérations nécessaires pour trouver le commit qui a introduit la régression.
-* Recommencez la procédure jusqu'à ce que git vous annonce avoir trouvé le commit incriminé.
+
+* Recommencez la procédure jusqu'à ce que git vous annonce avoir trouvé le commit incriminé : notez la clé SHA-1 du commit
+* quittez le mode bisect en tapant la commande `git bisect stop` : cette commande repositionne le HEAD et l'état du file system à l'état qui a précédé l'entré dans le mode bisect.
+* une fois le commit détecté, vous pouvez créer un commit 'inverse' de ce commit pour inverser ses modifications : `git revert xxxxx` où xxxxx est la clé SHA-1 que vous aviez notée.
 
 === Exercice 2
