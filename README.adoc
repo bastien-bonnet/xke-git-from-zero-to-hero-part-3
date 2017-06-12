@@ -49,6 +49,23 @@ Les objectifs de cette séance sont d'apprendre à :
 
 == Exercices
 
-=== Exercice 1
+=== Localiser un commit qui introduit une régression
+Dans cet exercice, nous allons détecter la référence d'un commit qui apporte une "régression".
+Pour cela, nous allons utiliser la commande `bisect` de git.
+Cette commande nous permet de rechercher un commit par dichotomie en testant des sous-ensembles de commits de plus en plus petits.
+
+* `git checkout master`
+* ouvrez le fichier A.txt et constatez que le fichier contient le texte **'Bye Bye!'** (Le comportement souhaité étant de contenir **'Hello world'**).
+* `git bisect start` : cette commande initie un contexte de recherche de commit par dichotomie
+* `git bisect bad` : cette commande indique que le commit actuel (master) inclus l'anomalie testée.
+* `git bisect good xxxxx` : cette commande indique que le commit dont la clé SHA-1 est xxxxx ne comporte pas l'anomalie testée. A ce moment là, git va vous sélectionner un commit situé exactement au milieu de la serie de commit délimitée par le commit que l'ont a défini comme bon et celui qui est défini comme mauvais.
+* ouvrez le fichier A.txt et regardez son contenu.
+
+A partir de là, 2 possibilités s'offrent à vous :
+* Le fichier A.txt **est conforme** au comportement recherché dans le commit sélectionné par git : tapez la commande `git bisect good`
+* Le fichier A.txt **n'est pas conforme** au comportement recherché : tapez la commande `git bisect bad`
+
+Dans les 2 cas, git redéfinira les bornes de la recherche en fonction de votre réponse et vous proposera un autre commit ainsi qu'une estimation du nombre maximum d'itérations nécessaires pour trouver le commit qui a introduit la régression.
+* Recommencez la procédure jusqu'à ce que git vous annonce avoir trouvé le commit incriminé.
 
 === Exercice 2
