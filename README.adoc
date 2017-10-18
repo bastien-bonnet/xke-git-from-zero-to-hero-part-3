@@ -93,6 +93,6 @@ Afin d'y arriver, nous allons utiliser la commande `cherry-pick` qui crée un co
 
 * `git checkout master`
 * `git l` : vous constatez la présence d'une branche nommée `cherrypick`. Parmis les commits de cette branche, vous voyez 1 commit `cherry pick me` situé entre 2 commits indésirables.
-* `git cherry-pick xxx`
+* `git cherry-pick ddfd83a`
 * `git l` : vous voyez l'apparition d'un nouveau commit sur la branche master
-* comparez les résultats de `git diff HEAD~2 HEAD` et `git diff xxx-1 xxx`. Vous constaterez que la même modification a été appliquée dans les deux branches.
+* comparez les résultats de `git diff HEAD~2 HEAD` et `git diff 4209c62 ddfd83a`. Vous constaterez que la même modification a été appliquée dans les deux branches.
