@@ -72,4 +72,16 @@ Dans les 2 cas, git redéfinira les bornes de la recherche en fonction de votre 
 * quittez le mode bisect en tapant la commande `git bisect stop` : cette commande repositionne le HEAD et l'état du file system à l'état qui a précédé l'entré dans le mode bisect.
 * une fois le commit détecté, vous pouvez créer un commit 'inverse' de ce commit pour inverser ses modifications : `git revert xxxxx` où xxxxx est la clé SHA-1 que vous aviez notée.
 
-=== Exercice 2
+=== La même en mieux! Automatiser la recherche du commit
+Dans cet exercice, nous allons automatiser la recherche du commit en laissant à un script le soin de tester la validité du fichier A.txt à chaque étape du parcours par dichotomie.
+Pour cela, nous avons préparé un script `testMyFile.sh` qui retourne 0 si le fichier contient **'Hello world'**. Sinon, il retourne 1.
+
+* `git checkout master`
+* `cp ./testMyFile.sh ../.` (Nous copions le script de test hors du répertoire géré par git. Le but étant de ne pas perdre le script pendant le parcours de git bisect.).
+* `git bisect start`
+* `git bisect bad`
+* `git bisect good ccdd677`
+* `git bisect run ../testMyFile.sh`
+
+A ce moment là, git bisect parcours l'arbre de révision en executant le script à chaque itération. A terme, la commande retourne l'identifiant du commit que nous cherchions.
+
