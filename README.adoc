@@ -82,6 +82,17 @@ Pour cela, nous avons préparé un script `testMyFile.sh` qui retourne 0 si le f
 * `git bisect bad`
 * `git bisect good ccdd677`
 * `git bisect run ../testMyFile.sh`
+* `git bisect reset` (pour mettre fin au contexte bisect)
 
 A ce moment là, git bisect parcours l'arbre de révision en executant le script à chaque itération. A terme, la commande retourne l'identifiant du commit que nous cherchions.
 
+=== Prélever et appliquer les modifications d'un commit isolé d'une branche à l'autre.
+Ici, nous allons nous intéresser au fichier B.txt.
+Nous souhaitons appliquer à ce fichier une correction introduite par un commit situé sur une autre branche dans pour autant inclure toutes les modifications apportées par cette branche.
+Afin d'y arriver, nous allons utiliser la commande `cherry-pick` qui crée un commit à partir des modifications introduites par un seul commit.
+
+* `git checkout master`
+* `git l` : vous constatez la présence d'une branche nommée `cherrypick`. Parmis les commits de cette branche, vous voyez 1 commit `cherry pick me` situé entre 2 commits indésirables.
+* `git cherry-pick xxx`
+* `git l` : vous voyez l'apparition d'un nouveau commit sur la branche master
+* comparez les résultats de `git diff HEAD~2 HEAD` et `git diff xxx-1 xxx`. Vous constaterez que la même modification a été appliquée dans les deux branches.
