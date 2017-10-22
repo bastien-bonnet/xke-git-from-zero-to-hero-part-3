@@ -96,3 +96,43 @@ Afin d'y arriver, nous allons utiliser la commande `cherry-pick` qui crée un co
 * `git cherry-pick ddfd83a`
 * `git l` : vous voyez l'apparition d'un nouveau commit sur la branche master
 * comparez les résultats de `git diff HEAD~2 HEAD` et `git diff 4209c62 ddfd83a`. Vous constaterez que la même modification a été appliquée dans les deux branches.
+
+=== Créer et appliquer un patch
+Git fournit la possibilité de crééer des patchs, c'est-à-dire des fichiers contenant un ensemble de changements à appliquer à du code. Cela peut servir, par exemple, à appliquer des changements déjà versionnés dans un autre dépôt, ou bien à partager des changements avec un collègue en cas de perte de réseau.
+
+Cela se fait en deux temps : création du patch (fichier), puis application du patch.
+
+==== Créer le patch
+Nous allons créer un patch contenant les modifications apporté par le dernier commit. Gardez à l'esprit qu'un patch peut contenir les modification d'un ensemble de commits.
+
+Créons le patch :
+
+    git format-patch --stdout master~1..master > my_patch.patch
+
+Nous observons qu'un
+
+Pour simuler un dépôt dans un état dans lequel il manque les modifications apportées par le patch que nous venons de créer, nous allons retirer le dernier commit :
+
+    git reset --hard HEAD~1
+
+
+==== Appliquer le patch
+Avant d'appliquer un patch, une bonne pratique est de regarder ce que ce patch va apporter comme modifications :
+
+    git apply --stat my_patch.patch
+
+Une fois cela fait, une autre bonne pratique est de regarder si l'application du patch va causer des problèmes (conflits) :
+
+    git apply --check my_patch.patch
+
+Si rien n'est affiché, il n'y aura pas de problème. Ce devrait être le cas dans cet atelier.
+
+Enfin, nous pouvons donc appliquer réellement le patch :
+
+    git am < my_patch.patch
+
+Cette dernière commande applique le patch et effectue un commit avec son contenu, jusqu'à l'écriture du message de commit.
+
+Vérifier que vous avez bien effectué un nouveau commit avec notre alias :
+
+    git l
