@@ -3,6 +3,18 @@
 :toc:
 :numbered: 1
 
+== Programme de l'atelier
+
+Ceci est le troisième atelier d'une série de trois sur l'utilisation de Git
+
+Les objectifs de cette séance sont d'apprendre à :
+
+* Déterminer le commit qui introduit une régression en utilisant git bisect.
+* Appliquer une modification isolée avec la commande cherrypick
+* Savoir ce qui se cache derrière la commande git pull
+* Etre en mesure de résoudre les problèmes liés à la modification d'une branche distante suite à un git push --force
+* Choisir un mode de travail adapté à votre projet (Pull-request, git flow, dictateur&lieutenant)
+
 == Pré-requis
 
 . Avoir Git installé
@@ -31,21 +43,6 @@ Pour utiliser l'alias que nous venons de définir (ne fonctionne que pour le pro
 +
 Remplacez `nano` par l'éditeur de votre choix (vim, emacs, gedit, kate…)
 
-
-== Introduction
-=== Programme de l'atelier
-
-Ceci est le troisième atelier d'une série de trois sur l'utilisation de Git
-
-Les objectifs de cette séance sont d'apprendre à :
-
-* Déterminer le commit qui introduit une régression en utilisant git bisect.
-* Appliquer une modification isolée avec la commande cherrypick
-* Savoir ce qui se cache derrière la commande git pull
-* Etre en mesure de résoudre les problèmes liés à la modification d'une branche distante suite à un git push --force
-* Choisir un mode de travail adapté à votre projet (Pull-request, git flow, dictateur&lieutenant)
-
-=== Préambule
 
 == Exercices
 
