@@ -133,3 +133,45 @@ Cette dernière commande applique le patch et effectue un commit avec son conten
 Vérifier que vous avez bien effectué un nouveau commit avec notre alias :
 
     git l
+
+== Live... Gitting  (je suppose ^_^°)
+
+=== J'ai modifié la référence d'une branche distante et mes équipiers perdent les références à cette branche
+==== Description
+
+Vous vous souvenez qu'on vous a dit de ne jamais utiliser la commande rebase sur une branche qui a déjà été persistée sur le dépôt distant ? Voici une situation qui peut avoir lieu si vous ne respectez pas cette bonne pratique.
+
+Soit une branche bX déjà poussée sur le dépôt origin et une branche master qui a évolué depuis la création et la persistance de cette branche. Cette branche bX prend racine sur la branche master au niveau du commit c0.
+
+je lance les commandes suivantes : `git checkout bX`, `git rebase master`, `git push origin bX --force`.
+
+Ce faisant, je force mon dépôt distant à déréférencer ma précédente branche bX pour en créer une nouvelle qui est issue du dernier commit de la branche master c1.
+
+Si j'étais seul sur mon projet, cette opération n'aurait eu aucun impact visible parce que ma nouvelle branche distance est correctement référencée et associée à la nouvelle branche sur le dépôt distant...
+
+Malheureusement, je ne suis pas seul et mes équipiers commencent à venir me voir un par un pour me demander pourquoi les commits qu'ils ont rajoutés sur leur branche bX en local n'existent plus depuis qu'ils ont lancé la commande `git pull`....
+
+==== Solution
+
+Avant de proposer une solution, nous allons revenir un moment sur ce qui vient de se passer:
+
+En temps normal, git ne permet pas de pousser un changement de référence de branche sur un dépôt distant mais l'option --force de push permet d'outrepasser cette sécurité. Cette option force git à déréférencer l'ancienne branche bX distante pour en créer une nouvelle qui va porter cette référence.
+Jusque là, tout va bien. Mon dépot local est synchronisé avec le dépôt distant.
+
+Cependant, un de mes équipiers a rajouté un commit sur sa version locale de la branche bX et tente de pousser cette modification de la branche sur le dépôt. Celui-ci lui réponds que la branche bX prenant racine en c0 n'existe plus.
+A ce moment là, mon équipier a 2 solutions:
+
+* Forcer à son tour un push sur la branche bX qui aurait pour effet de rétablir la branche qui prend racine en c0.
+* Récupérer la nouvelle référence de branche à l'aide d'un `git pull` pour y inclures ses modifications locales avant de la pousser sur le dépôt.
+
+Vous l'aurez compris, la première solution (d'un bourrinisme achevé) est à éviter car elle ne résout rien de manière durable puisque je serais à mon tour victime d'une incohérence entre ma branche locale et celle du dépôt.
+
+Nous allons maintenant explorer ensemble la deuxième solution:
+
+* Mon équipier récupère la nouvelle référence de bX: `git pull origin bX`
+* La nouvelle référence de bX apparait dans l'arbre de révision local mais la précédente branche locale a disparue avec le commit que l'équipier souhaitait pousser sur le dépôt.
+* Dans un premier temps, il faut retrouver la clé du commit à récupérer. Pour cela, nous allons utiliser `git reflog`.
+* Une fois cette commande exécutée, on recherche la clé correspondant à ce commit (vraisemblablement juste avant l'execution de `git pull`)
+* Maintenant que la clé est retrouvée, il ne reste plus qu'à demander à git de reporter les modification appliquées à ma branche anciennement perdue sur la nouvelle branche. Pour ça, je fais `git checkout <SHA1_perdu>` puis `git rebase bX`
+* Dans ce context, va automatiquement détecter que certains commits de l'ancienne branche sont identiques en contenu à des commits de la nouvelle branche. Ainsi, git ne rajoutera dans nouvelle branche bX que les commits qui ont été rajoutés dans l'ancienne branche bX.
+
