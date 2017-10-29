@@ -134,7 +134,7 @@ Vérifier que vous avez bien effectué un nouveau commit avec notre alias :
 
     git l
 
-== Live... Gitting  (je suppose ^_^°)
+== Live... Gitting  (je suppose \^_\^°)
 
 === J'ai modifié la référence d'une branche distante et mes équipiers perdent les références à cette branche
 ==== Description
