@@ -11,9 +11,8 @@ Les objectifs de cette séance sont d'apprendre à :
 
 * Déterminer le commit qui introduit une régression en utilisant git bisect.
 * Appliquer une modification isolée avec la commande cherrypick
-* Savoir ce qui se cache derrière la commande git pull
+* Savoir créer et appliquer un patch
 * Etre en mesure de résoudre les problèmes liés à la modification d'une branche distante suite à un git push --force
-* Choisir un mode de travail adapté à votre projet (Pull-request, git flow, dictateur&lieutenant)
 
 == Pré-requis
 
@@ -136,8 +135,8 @@ Vérifier que vous avez bien effectué un nouveau commit avec notre alias :
 
 == Live... Gitting  (je suppose \^_^°)
 
-=== J'ai modifié la référence d'une branche distante et mes équipiers perdent les références à cette branche
-==== Description
+=== Mise en situation : J'ai modifié la référence d'une branche distante et mes équipiers perdent les références à cette branche
+==== Explication
 
 Vous vous souvenez qu'on vous a dit de ne jamais utiliser la commande rebase sur une branche qui a déjà été persistée sur le dépôt distant ? Voici une situation qui peut avoir lieu si vous ne respectez pas cette bonne pratique.
 
