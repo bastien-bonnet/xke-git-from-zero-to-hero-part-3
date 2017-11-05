@@ -1,4 +1,4 @@
-= Git from zero to hero: 3. Nom de l'atelier
+= Git from zero to hero: 3. Commandes avancées
 :Author: Bastien Bonnet, Alexandre Dergham
 :toc:
 :numbered: 1
@@ -11,6 +11,7 @@ Les objectifs de cette séance sont d'apprendre à :
 
 * Déterminer le commit qui introduit une régression en utilisant git bisect.
 * Appliquer une modification isolée avec la commande cherrypick
+* Déplacer une sous-partie d'une branche
 * Savoir créer et appliquer un patch
 * Etre en mesure de résoudre les problèmes liés à la modification d'une branche distante suite à un git push --force
 
@@ -92,6 +93,61 @@ Afin d'y arriver, nous allons utiliser la commande `cherry-pick` qui crée un co
 * `git cherry-pick ddfd83a`
 * `git l` : vous voyez l'apparition d'un nouveau commit sur la branche master
 * comparez les résultats de `git diff HEAD~2 HEAD` et `git diff 4209c62 ddfd83a`. Vous constaterez que la même modification a été appliquée dans les deux branches.
+
+=== Déplacer une partie d'une branche
+Considérons l'état suivant :
+
+----
+A---B---C---D master
+     \
+      E---F---G feature-A
+               \
+                H---I my-feature
+----
+
+Nous avons une branche `my-feature`, créée à partir de `feature-A`, elle-même créée à partir de `master`. Il s’agit d’une erreur, car `my-feature` aurait dû être créée à partir de `master` et ne dépend pas de `feature-A`. Nous voudrions donc déplacer `my-feature` sans ses commits communs avec `feature-A`, c’est-à-dire les commits E, F et G pour la « raccrocher » à `master`. Le résultat voulu serait donc :
+
+----
+A---B---C---D master
+     \       \
+      \       H'---I' my-feature
+       \
+        E---F---G feature-A
+----
+
+Le problème, c'est qu'avec un rebase classique (nous sommes placés sur `my-feature`) :
+    
+    git rebase master
+
+Nous allons obtenir le résultat suivant :
+
+----
+A---B---C---D master
+     \       \
+      \       E'---F'---G'---H'---I' my-feature
+       \
+        E---F---G feature-A
+
+----
+Car rebase va prendre tous les commmits de `my-feature` n'appartenant pas à `master`.
+
+C'est pourquoi rebase propose une syntaxe différence permettant de spécifier un point de départ pour les commits à « embarquer » dans le rebase : 
+
+    git rebase --onto master feature-A my-feature
+
+
+Le résultat est le suivant :
+
+----
+A---B---C---D master
+     \       \
+      \       H'---I' my-feature
+       \
+        E---F---G feature-A
+----
+
+Appliquez cette technique avecs les branches `master`, `feature-A` et `my-feature` du dépôt de l'atelier. Vous devez prendre les commits de `my-feature` *sans ceux de feature-A* et les déplacer sur `master`.
+
 
 === Créer et appliquer un patch
 Git fournit la possibilité de crééer des patchs, c'est-à-dire des fichiers contenant un ensemble de changements à appliquer à du code. Cela peut servir, par exemple, à appliquer des changements déjà versionnés dans un autre dépôt, ou bien à partager des changements avec un collègue en cas de perte de réseau.
