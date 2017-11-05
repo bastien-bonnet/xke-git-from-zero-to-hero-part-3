@@ -1,4 +1,4 @@
-= Git from zero to hero: 3. Commandes avancées
+= Git from zero to hero: 3 - Commandes avancées
 :Author: Bastien Bonnet, Alexandre Dergham
 :toc:
 :numbered: 1
@@ -51,14 +51,14 @@ Dans cet exercice, nous allons détecter la référence d'un commit qui apporte 
 Pour cela, nous allons utiliser la commande `bisect` de git.
 Cette commande nous permet de rechercher un commit par dichotomie en testant des sous-ensembles de commits de plus en plus petits.
 
-* `git checkout master`
+* `git reset --hard origin/master`
 * ouvrez le fichier A.txt et constatez que le fichier contient le texte **'Bye Bye!'** (Le comportement souhaité étant de contenir **'Hello world'**).
 * `git bisect start` : cette commande initie un contexte de recherche de commit par dichotomie
 * `git bisect bad` : cette commande indique que le commit actuel (master) inclus l'anomalie testée.
 * `git bisect good ccdd677` : cette commande indique que le commit dont la clé SHA-1 est ccdd677 ne comporte pas l'anomalie testée. A ce moment là, git va vous sélectionner un commit situé exactement au milieu de la serie de commit délimitée par le commit que l'ont a défini comme bon et celui qui est défini comme mauvais.
 * ouvrez le fichier A.txt et regardez son contenu.
 
-A partir de là, 2 possibilités s'offrent à vous :
+À partir de là, 2 possibilités s'offrent à vous :
 
 * Le fichier A.txt **est conforme** au comportement recherché dans le commit sélectionné par git : tapez la commande `git bisect good`
 * Le fichier A.txt **n'est pas conforme** au comportement recherché : tapez la commande `git bisect bad`
@@ -66,14 +66,14 @@ A partir de là, 2 possibilités s'offrent à vous :
 Dans les 2 cas, git redéfinira les bornes de la recherche en fonction de votre réponse et vous proposera un autre commit ainsi qu'une estimation du nombre maximum d'itérations nécessaires pour trouver le commit qui a introduit la régression.
 
 * Recommencez la procédure jusqu'à ce que git vous annonce avoir trouvé le commit incriminé : notez la clé SHA-1 du commit
-* quittez le mode bisect en tapant la commande `git bisect stop` : cette commande repositionne le HEAD et l'état du file system à l'état qui a précédé l'entré dans le mode bisect.
-* une fois le commit détecté, vous pouvez créer un commit 'inverse' de ce commit pour inverser ses modifications : `git revert xxxxx` où xxxxx est la clé SHA-1 que vous aviez notée.
+* quittez le mode bisect en tapant la commande `git bisect reset` : cette commande repositionne le HEAD et l'état du file system à l'état qui a précédé l'entré dans le mode bisect.
+* une fois le commit détecté, vous pourriez (*ne le faites pas* pour être prêts pour l'exercice suivant) créer un commit 'inverse' de ce commit pour inverser ses modifications : `git revert xxxxx` où xxxxx est la clé SHA-1 que vous aviez notée.
 
 === La même en mieux! Automatiser la recherche du commit
 Dans cet exercice, nous allons automatiser la recherche du commit en laissant à un script le soin de tester la validité du fichier A.txt à chaque étape du parcours par dichotomie.
 Pour cela, nous avons préparé un script `testMyFile.sh` qui retourne 0 si le fichier contient **'Hello world'**. Sinon, il retourne 1.
 
-* `git checkout master`
+* `git reset --hard origin/master`
 * `cp ./testMyFile.sh ../.` (Nous copions le script de test hors du répertoire géré par git. Le but étant de ne pas perdre le script pendant le parcours de git bisect.).
 * `git bisect start`
 * `git bisect bad`
@@ -119,7 +119,7 @@ Le problème, c'est qu'avec un rebase classique (nous sommes placés sur `my-fea
     
     git rebase master
 
-Nous allons obtenir le résultat suivant :
+… nous allons obtenir le résultat suivant :
 
 ----
 A---B---C---D master
@@ -129,7 +129,7 @@ A---B---C---D master
         E---F---G feature-A
 
 ----
-Car rebase va prendre tous les commmits de `my-feature` n'appartenant pas à `master`.
+… car rebase va prendre tous les commmits de `my-feature` n'appartenant pas à `master`.
 
 C'est pourquoi rebase propose une syntaxe différence permettant de spécifier un point de départ pour les commits à « embarquer » dans le rebase : 
 
@@ -160,8 +160,6 @@ Nous allons créer un patch contenant les modifications apporté par le dernier 
 Créons le patch :
 
     git format-patch --stdout master~1..master > my_patch.patch
-
-Nous observons qu'un
 
 Pour simuler un dépôt dans un état dans lequel il manque les modifications apportées par le patch que nous venons de créer, nous allons retirer le dernier commit :
 
@@ -196,37 +194,37 @@ Vérifier que vous avez bien effectué un nouveau commit avec notre alias :
 
 Vous vous souvenez qu'on vous a dit de ne jamais utiliser la commande rebase sur une branche qui a déjà été persistée sur le dépôt distant ? Voici une situation qui peut avoir lieu si vous ne respectez pas cette bonne pratique.
 
-Soit une branche bX déjà poussée sur le dépôt origin et une branche master qui a évolué depuis la création et la persistance de cette branche. Cette branche bX prend racine sur la branche master au niveau du commit c0.
+Soit une branche `bX` déjà poussée sur le dépôt origin et une branche master qui a évolué depuis la création et la persistance de cette branche. Cette branche `bX` prend racine sur la branche `master` au niveau du commit `c0`.
 
 je lance les commandes suivantes : `git checkout bX`, `git rebase master`, `git push origin bX --force`.
 
-Ce faisant, je force mon dépôt distant à déréférencer ma précédente branche bX pour en créer une nouvelle qui est issue du dernier commit de la branche master c1.
+Ce faisant, je force mon dépôt distant à déréférencer ma précédente branche `bX` pour en créer une nouvelle qui est issue du dernier commit de la branche `master` `c1`.
 
 Si j'étais seul sur mon projet, cette opération n'aurait eu aucun impact visible parce que ma nouvelle branche distance est correctement référencée et associée à la nouvelle branche sur le dépôt distant...
 
-Malheureusement, je ne suis pas seul et mes équipiers commencent à venir me voir un par un pour me demander pourquoi les commits qu'ils ont rajoutés sur leur branche bX en local n'existent plus depuis qu'ils ont lancé la commande `git pull`....
+Malheureusement, je ne suis pas seul et mes équipiers commencent à venir me voir un par un pour me demander pourquoi les commits qu'ils ont rajoutés sur leur branche bX en local n'existent plus depuis qu'ils ont lancé la commande `git pull`...
 
 ==== Solution
 
-Avant de proposer une solution, nous allons revenir un moment sur ce qui vient de se passer:
+Avant de proposer une solution, nous allons revenir un moment sur ce qui vient de se passer :
 
-En temps normal, git ne permet pas de pousser un changement de référence de branche sur un dépôt distant mais l'option --force de push permet d'outrepasser cette sécurité. Cette option force git à déréférencer l'ancienne branche bX distante pour en créer une nouvelle qui va porter cette référence.
+En temps normal, Git ne permet pas de pousser un changement de référence de branche sur un dépôt distant mais l'option `--force` de push permet d'outrepasser cette sécurité. Cette option force Git à déréférencer l'ancienne branche bX distante pour en créer une nouvelle qui va porter cette référence.
 Jusque là, tout va bien. Mon dépot local est synchronisé avec le dépôt distant.
 
-Cependant, un de mes équipiers a rajouté un commit sur sa version locale de la branche bX et tente de pousser cette modification de la branche sur le dépôt. Celui-ci lui réponds que la branche bX prenant racine en c0 n'existe plus.
-A ce moment là, mon équipier a 2 solutions:
+Cependant, un de mes équipiers a rajouté un commit sur sa version locale de la branche `bX` et tente de pousser cette modification de la branche sur le dépôt. Celui-ci lui réponds que la branche bX prenant racine en `c0` n'existe plus.
+A ce moment là, mon équipier a 2 solutions :
 
-* Forcer à son tour un push sur la branche bX qui aurait pour effet de rétablir la branche qui prend racine en c0.
+* Forcer à son tour un push sur la branche bX qui aurait pour effet de rétablir la branche qui prend racine en `c0`.
 * Récupérer la nouvelle référence de branche à l'aide d'un `git pull` pour y inclures ses modifications locales avant de la pousser sur le dépôt.
 
 Vous l'aurez compris, la première solution (d'un bourrinisme achevé) est à éviter car elle ne résout rien de manière durable puisque je serais à mon tour victime d'une incohérence entre ma branche locale et celle du dépôt.
 
-Nous allons maintenant explorer ensemble la deuxième solution:
+Nous allons maintenant explorer ensemble la deuxième solution :
 
 * Mon équipier récupère la nouvelle référence de bX: `git pull origin bX`
 * La nouvelle référence de bX apparait dans l'arbre de révision local mais la précédente branche locale a disparue avec le commit que l'équipier souhaitait pousser sur le dépôt.
 * Dans un premier temps, il faut retrouver la clé du commit à récupérer. Pour cela, nous allons utiliser `git reflog`.
 * Une fois cette commande exécutée, on recherche la clé correspondant à ce commit (vraisemblablement juste avant l'execution de `git pull`)
 * Maintenant que la clé est retrouvée, il ne reste plus qu'à demander à git de reporter les modification appliquées à ma branche anciennement perdue sur la nouvelle branche. Pour ça, je fais `git checkout <SHA1_perdu>` puis `git rebase bX`
-* Dans ce context, va automatiquement détecter que certains commits de l'ancienne branche sont identiques en contenu à des commits de la nouvelle branche. Ainsi, git ne rajoutera dans nouvelle branche bX que les commits qui ont été rajoutés dans l'ancienne branche bX.
+* Dans ce context, va automatiquement détecter que certains commits de l'ancienne branche sont identiques en contenu à des commits de la nouvelle branche. Ainsi, git ne rajoutera dans nouvelle branche `bX` que les commits qui ont été rajoutés dans l'ancienne branche `bX`.
 
