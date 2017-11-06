@@ -116,7 +116,7 @@ A---B---C---D master
 ----
 
 Le problème, c'est qu'avec un rebase classique (nous sommes placés sur `my-feature`) :
-    
+
     git rebase master
 
 … nous allons obtenir le résultat suivant :
@@ -131,7 +131,7 @@ A---B---C---D master
 ----
 … car rebase va prendre tous les commmits de `my-feature` n'appartenant pas à `master`.
 
-C'est pourquoi rebase propose une syntaxe différence permettant de spécifier un point de départ pour les commits à « embarquer » dans le rebase : 
+C'est pourquoi rebase propose une syntaxe différence permettant de spécifier un point de départ pour les commits à « embarquer » dans le rebase :
 
     git rebase --onto master feature-A my-feature
 
@@ -202,7 +202,7 @@ Ce faisant, je force mon dépôt distant à déréférencer ma précédente bran
 
 Si j'étais seul sur mon projet, cette opération n'aurait eu aucun impact visible parce que ma nouvelle branche distance est correctement référencée et associée à la nouvelle branche sur le dépôt distant...
 
-Malheureusement, je ne suis pas seul et mes équipiers commencent à venir me voir un par un pour me demander pourquoi les commits qu'ils ont rajoutés sur leur branche bX en local n'existent plus depuis qu'ils ont lancé la commande `git pull`...
+Malheureusement, je ne suis pas seul et mes équipiers commencent à venir me voir un par un pour me demander pourquoi les commits qu'ils ont rajoutés sur leur branche bX en local n'existent plus depuis qu'ils ont lancé la commande `git pull --rebase`...
 
 ==== Solution
 
